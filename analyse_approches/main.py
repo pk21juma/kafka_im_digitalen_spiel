@@ -2,6 +2,7 @@ import json
 import re
 import os
 import torch
+import math
 import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
@@ -17,34 +18,26 @@ from datasets import Dataset
 # Weitere Treffer werden nur anteilig und normalisiert angerechnet
 # Nicht final, wird eventuell durch ein lineareres Scoring ersetzt
 def calculate_score(text, keywords):
-    base_scores = {1: 0, 2: 10, 3: 30, 4: 50, 5: 70}
     total_score = 0
-    total_possible_extra = 0
-
-    # Gesamtzahl für Normalisierung
-    num_keywords = len(keywords)
-    if num_keywords == 0:
-        return 0
 
     for kw, weight in keywords.items():
-        pattern = rf"\b{re.escape(kw.lower())}\.?\b"
-        matches = re.findall(pattern, text, re.IGNORECASE)
+        pattern = rf"\b{re.escape(kw.lower())}\b"
+        matches = re.findall(pattern, text.lower())
         num_matches = len(matches)
 
-        if num_matches == 0:
-            continue
+        if num_matches > 0:
+            # Basiswert (einfach skaliert aus Gewicht 1–5 → 4–20 Punkte)
+            base = weight * 4
 
-        # Hinzufügen der Gewichtung
-        total_score += base_scores.get(weight, 0)
+            # Logarithmische Abflachung
+            # log(1 + n) wächst langsamer als n
+            score_kw = base * math.log(1 + num_matches)
 
-        # Treffer normalisiert in der jeweiligen Kategorie
-        extra_score = 0
-        if num_matches > 1:
-            max_extra = base_scores.get(weight,0) * 0.3
-            extra_score = min(max_extra, max_extra * (num_matches - 1) / num_keywords)
-            total_score += extra_score
+            total_score += score_kw
 
-    return round(min(total_score, 100),2)
+    # Clipping, damit es pro Kategorie nicht über 100 Punkte geht
+    return round(min(total_score, 100), 2)
+
 
 # Simpler Ansatz für Phase 1: Suchen nach Stichwörtern, gewichtet
 def phase1_analyze_games(games, kafka_keywords):
@@ -462,8 +455,8 @@ def main():
     # Modell laden für Phase 2
     #model = SentenceTransformer('all-mpnet-base-v2')
 
-    #scores_phase1 = phase1_analyze_games(games, kafka_keywords)
-    #df_phase1 = build_tables(games, scores_phase1, phase_name="Phase1")
+    scores_phase1 = phase1_analyze_games(games, kafka_keywords)
+    df_phase1 = build_tables(games, scores_phase1, phase_name="Phase1")
 
     # Für optimale Laufzeiten, sollte das Modell auf der GPU ausgeführt werden, hierzu ist
     # die richtige Torch Version nötig, siehe: https://pytorch.org/get-started/locally/
@@ -472,7 +465,7 @@ def main():
     #scores_phase2 = phase2_analyze_games(games, kafka_themes, model)
     #df_phase2 = build_tables(games, scores_phase2, phase_name="Phase2")
 
-    df = phase3_analyze_games(games[:10], kafka_lit)
+    #df = phase3_analyze_games(games[:10], kafka_lit)
     # print(df)
 
 if __name__ == "__main__":
