@@ -1,0 +1,11 @@
+game_id,title,steam_link,keyword_evaluation_Autobiographisch,keyword_evaluation_Werke,keyword_evaluation_Figuren,keyword_evaluation_K_E_Total,embedding_evaluation_kafkaesque,embedding_evaluation_absurd,embedding_evaluation_surreal,embedding_evaluation_displaced,embedding_evaluation_isolated,embedding_evaluation_alienated,embedding_evaluation_bureaucratic,embedding_evaluation_civil service,embedding_evaluation_Embedding_Total,keyword_rescaled,embedding_rescaled,baseline_combined_rescaled
+1207650,Suzerain,https://store.steampowered.com/app/1207650,0.0,0.0,8.79,3.56,32.13,4.17,3.07,4.76,9.94,7.29,19.26,35.33,14.49,98.93,96.8,97.87
+2191680,Mistwinter Bay,https://store.steampowered.com/app/2191680,0.0,2.77,5.55,3.0,32.62,10.16,4.89,3.68,11.69,11.84,13.83,31.51,15.03,97.74,97.46,97.6
+2210700,Pechka: Historical Story Adventure,https://store.steampowered.com/app/2210700,5.55,2.77,0.0,2.55,41.8,11.28,5.97,4.96,11.01,11.74,11.98,22.5,15.15,95.91,97.59,96.75
+1570070,Beholder 3,https://store.steampowered.com/app/1570070,0.0,0.0,5.55,2.25,31.94,6.4,3.61,3.19,7.73,12.09,23.85,32.11,15.12,93.96,97.56,95.76
+529340,Victoria 3,https://store.steampowered.com/app/529340,8.32,5.55,0.0,4.2,29.38,8.97,3.55,2.77,8.06,7.55,16.5,21.26,12.26,99.55,91.89,95.72
+470310,TROUBLESHOOTER: Abandoned Children,https://store.steampowered.com/app/470310,0.0,5.55,5.55,3.75,30.2,2.55,3.74,3.07,5.64,10.23,19.2,20.93,11.95,99.18,90.81,94.99
+2094580,We. The Refugees: Ticket to Europe,https://store.steampowered.com/app/2094580,0.0,0.0,8.79,3.56,33.25,3.21,4.25,7.05,15.05,11.4,8.03,13.64,11.99,98.93,90.96,94.95
+1272160,The Life and Suffering of Sir Brante,https://store.steampowered.com/app/1272160,0.0,5.55,5.55,3.75,34.81,9.21,4.12,4.73,6.54,9.69,10.13,15.83,11.88,99.18,90.55,94.86
+1308760,Mesmer,https://store.steampowered.com/app/1308760,0.0,0.0,5.55,2.25,31.42,6.25,3.46,4.63,10.51,13.82,13.83,22.71,13.33,93.96,94.78,94.37
+2069180,The King's Dilemma: Chronicles,https://store.steampowered.com/app/2069180,0.0,0.0,5.55,2.25,25.78,13.77,2.97,3.38,6.33,10.85,13.9,27.55,13.07,93.96,94.18,94.07
