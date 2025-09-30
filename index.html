@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kafka Games Supertable</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>Kafka Games Supertable</h1>
+  <div id="table"></div>
+
+  <script>
+    Papa.parse("results/supertable.csv", {
+      download: true,
+      header: true,
+      complete: function(results) {
+        const table = document.createElement("table");
+        const headerRow = document.createElement("tr");
+
+        // Header
+        results.meta.fields.forEach(col => {
+          const th = document.createElement("th");
+          th.textContent = col;
+          headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+
+        // Rows
+        results.data.forEach(row => {
+          const tr = document.createElement("tr");
+          results.meta.fields.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = row[col];
+            tr.appendChild(td);
+          });
+          table.appendChild(tr);
+        });
+
+        document.getElementById("table").appendChild(table);
+      }
+    });
+  </script>
+</body>
+</html>

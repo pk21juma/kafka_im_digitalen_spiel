@@ -2,19 +2,23 @@
   "krauss_sections": [
     {
       "id": "krauss_1_definition",
-      "text": "Walter Benjamin sprach von 'wolkigen Stellen' in Kafkas Texten – Unbestimmtheitsstellen, die den Leser dazu auffordern, selbst aktiv Verbindungen zwischen den Elementen einer Erzählung herzustellen."
+      "text": "Walter Benjamin sprach von 'wolkigen Stellen' in Kafkas Texten – Unbestimmtheitsstellen, die den Leser dazu auffordern, selbst aktiv Verbindungen zwischen den Elementen einer Erzählung herzustellen.",
+      "text_en": "Walter Benjamin spoke of 'cloudy spots' in Kafka's texts – indeterminate passages that encourage the reader to actively make connections between the elements of a narrative."
     },
     {
       "id": "krauss_2_kontrast",
-      "text": "Nicht nur wolkige Stellen fordern Leser zur aktiven Deutung auf. Auch scheinbar klare Passagen aktivieren Top-Down-Effekte, die verhindern, dass Lesen ein rein passiver Prozess ist."
+      "text": "Nicht nur wolkige Stellen fordern Leser zur aktiven Deutung auf. Auch scheinbar klare Passagen aktivieren Top-Down-Effekte, die verhindern, dass Lesen ein rein passiver Prozess ist.",
+      "text_en": "Not only cloudy spots prompt the reader to interpret actively. Even seemingly clear passages trigger top-down effects that prevent reading from being a purely passive process."
     },
     {
       "id": "krauss_3_beispiel_rossmann",
-      "text": "Beispiel: Karl Rossmann flieht vor einem Polizisten. Obwohl die Szene klar beschrieben scheint, erzeugen widersprüchliche Details – wie seine 'zu hohen, zeitraubenden und nutzlosen Sprünge' – Spielraum für Interpretationen."
+      "text": "Beispiel: Karl Rossmann flieht vor einem Polizisten. Obwohl die Szene klar beschrieben scheint, erzeugen widersprüchliche Details – wie seine 'zu hohen, zeitraubenden und nutzlosen Sprünge' – Spielraum für Interpretationen.",
+      "text_en": "Example: Karl Rossmann flees from a policeman. Although the scene appears clearly described, contradictory details – like his 'too high, time-consuming, and useless jumps' – leave room for interpretation."
     },
     {
       "id": "krauss_4_schluss",
-      "text": "Interpretative Offenheit entsteht nicht nur aus dem Text selbst, sondern aus der Textbasis oder dem Situationsmodell, das im Kopf der Leser entsteht – geprägt von individuellen Schemata und Kontexten."
+      "text": "Interpretative Offenheit entsteht nicht nur aus dem Text selbst, sondern aus der Textbasis oder dem Situationsmodell, das im Kopf der Leser entsteht – geprägt von individuellen Schemata und Kontexten.",
+      "text_en": "Interpretative openness arises not only from the text itself but also from the textual base or the mental model that forms in the reader's mind – shaped by individual schemas and context."
     }
   ]
 }
