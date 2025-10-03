@@ -97,11 +97,15 @@
       const headerRow = document.createElement("tr");
       results.meta.fields.forEach((col, idx) => {
         const th = document.createElement("th");
-        th.textContent = col;
-        th.addEventListener("click", () => sortTable(idx, col));
-        if (currentSort.col === col) {
-          th.classList.add(currentSort.dir === "asc" ? "sort-asc" : "sort-desc");
+        th.textContent = col === "steam_link" ? "Link" : col;
+
+        if (col !== "steam_link") {
+          th.addEventListener("click", () => sortTable(idx, col));
+          if (currentSort.col === col) {
+            th.classList.add(currentSort.dir === "asc" ? "sort-asc" : "sort-desc");
+          }
         }
+
         headerRow.appendChild(th);
       });
       table.appendChild(headerRow);
@@ -110,45 +114,45 @@
         const tr = document.createElement("tr");
         results.meta.fields.forEach(col => {
           const td = document.createElement("td");
-          td.textContent = row[col];
+
+          if (col === "steam_link" && row[col]) {
+            const a = document.createElement("a");
+            a.href = row[col];
+            a.textContent = "Link";
+            a.target = "_blank";
+            td.appendChild(a);
+          } else {
+            td.textContent = row[col];
+          }
+
           tr.appendChild(td);
         });
         table.appendChild(tr);
       });
     }
 
-    function sortTable(idx, col) {
-      const dir = (currentSort.col === col && currentSort.dir === "asc") ? "desc" : "asc";
-      currentSort = { col, dir };
+  function sortTable(colIndex, colName) {
+    const dir = currentSort.col === colName && currentSort.dir === "asc" ? "desc" : "asc";
+    currentSort = { col: colName, dir };
 
-      parsedData.data.sort((a, b) => {
-        let valA = a[col] || "";
-        let valB = b[col] || "";
+    parsedData.data.sort((a, b) => {
+      let valA = a[colName] || "";
+      let valB = b[colName] || "";
 
-        const numA = parseFloat(valA);
-        const numB = parseFloat(valB);
-        if (!isNaN(numA) && !isNaN(numB)) {
-          return dir === "asc" ? numA - numB : numB - numA;
-        }
+      // numeric check
+      if (!isNaN(parseFloat(valA)) && !isNaN(parseFloat(valB))) {
+        valA = parseFloat(valA);
+        valB = parseFloat(valB);
+      }
 
-        return dir === "asc"
-          ? valA.localeCompare(valB)
-          : valB.localeCompare(valA);
-      });
-
-      renderTable(parsedData);
-    }
-
-    document.getElementById("search").addEventListener("input", function(e) {
-      const query = e.target.value.toLowerCase();
-      const filtered = {
-        meta: parsedData.meta,
-        data: parsedData.data.filter(row =>
-          (row["title"] || "").toLowerCase().includes(query)
-        )
-      };
-      renderTable(filtered);
+      if (valA < valB) return dir === "asc" ? -1 : 1;
+      if (valA > valB) return dir === "asc" ? 1 : -1;
+      return 0;
     });
-  </script>
+
+    renderTable(parsedData);
+  }
+</script>
+
 </body>
 </html>
