@@ -4,40 +4,150 @@
   <meta charset="UTF-8">
   <title>Kafka Games Supertable</title>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 14px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 800px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+      font-size: 14px;
+      cursor: default;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #eaf3ff;
+    }
+    .sort-asc::after {
+      content: " ▲";
+    }
+    .sort-desc::after {
+      content: " ▼";
+    }
+  </style>
 </head>
 <body>
   <h1>Kafka Games Supertable</h1>
-  <div id="table"></div>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search by title...">
+  </div>
+
+  <div class="table-container">
+    <table id="data-table"></table>
+  </div>
 
   <script>
+    let parsedData = [];
+    let currentSort = { col: null, dir: "asc" };
+
     Papa.parse("results/supertable.csv", {
       download: true,
       header: true,
       complete: function(results) {
-        const table = document.createElement("table");
-        const headerRow = document.createElement("tr");
-
-        // Header
-        results.meta.fields.forEach(col => {
-          const th = document.createElement("th");
-          th.textContent = col;
-          headerRow.appendChild(th);
-        });
-        table.appendChild(headerRow);
-
-        // Rows
-        results.data.forEach(row => {
-          const tr = document.createElement("tr");
-          results.meta.fields.forEach(col => {
-            const td = document.createElement("td");
-            td.textContent = row[col];
-            tr.appendChild(td);
-          });
-          table.appendChild(tr);
-        });
-
-        document.getElementById("table").appendChild(table);
+        parsedData = results;
+        renderTable(results);
       }
+    });
+
+    function renderTable(results) {
+      const table = document.getElementById("data-table");
+      table.innerHTML = "";
+
+      const headerRow = document.createElement("tr");
+      results.meta.fields.forEach((col, idx) => {
+        const th = document.createElement("th");
+        th.textContent = col;
+        th.addEventListener("click", () => sortTable(idx, col));
+        if (currentSort.col === col) {
+          th.classList.add(currentSort.dir === "asc" ? "sort-asc" : "sort-desc");
+        }
+        headerRow.appendChild(th);
+      });
+      table.appendChild(headerRow);
+
+      results.data.forEach(row => {
+        const tr = document.createElement("tr");
+        results.meta.fields.forEach(col => {
+          const td = document.createElement("td");
+          td.textContent = row[col];
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      });
+    }
+
+    function sortTable(idx, col) {
+      const dir = (currentSort.col === col && currentSort.dir === "asc") ? "desc" : "asc";
+      currentSort = { col, dir };
+
+      parsedData.data.sort((a, b) => {
+        let valA = a[col] || "";
+        let valB = b[col] || "";
+
+        const numA = parseFloat(valA);
+        const numB = parseFloat(valB);
+        if (!isNaN(numA) && !isNaN(numB)) {
+          return dir === "asc" ? numA - numB : numB - numA;
+        }
+
+        return dir === "asc"
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      });
+
+      renderTable(parsedData);
+    }
+
+    document.getElementById("search").addEventListener("input", function(e) {
+      const query = e.target.value.toLowerCase();
+      const filtered = {
+        meta: parsedData.meta,
+        data: parsedData.data.filter(row =>
+          (row["title"] || "").toLowerCase().includes(query)
+        )
+      };
+      renderTable(filtered);
     });
   </script>
 </body>
