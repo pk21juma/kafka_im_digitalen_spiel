@@ -29,7 +29,7 @@ def main():
     with open(r"korpus/kafka_literature.json", "r", encoding="utf-8") as f:
         kafka_literature = json.load(f)
 
-    analyse_approches.generative_evaluation(games, kafka_literature, batch_size=8, frame = 10)
+    analyse_approches.generative_evaluation(games, kafka_literature, batch_size=8, frame = 100)
 
     # analyse_approches.generative_evaluation(games, kafka_literature, generator_model="microsoft/phi-2", batch_size=2, frame = 10)
 if __name__ == "__main__":
